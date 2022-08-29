@@ -8,11 +8,11 @@ const difficulty = document.querySelectorAll('.difficulty');
 const currentState = document.querySelectorAll('.current-state');
 const stageContainer = document.querySelectorAll('.stage-container');
 const dotsContainer = document.querySelectorAll('.dots-container');
-const dotsContainerDot = document.querySelectorAll('.dots-container .dot');
+const dotsContainerDot = document.querySelectorAll('.dot');
 
 let currentAncient = 0;
 let currentDifficulty = 2;
-let currentStage = [[]];
+
 
 let green = [];
 let blue = [];
@@ -21,7 +21,7 @@ let countGreenBlueBrown = [0, 0, 0];
 
 let stages = { greenCards, blueCards, brownCards };
 let fullStages = {};
-
+alert('Привет!Почти все сделал. В консоли показывает конечный массив с картами - miniStage. Доделаю завтра, что бы по рядам брались карты и картинки что бы показывались.');
 // объединяем три колоды карт в одну fullStages
 let index = 0;
 for (let key in stages) {
@@ -108,18 +108,27 @@ const choseAncient = (e) => {
 // сумма элементов в массиве. Сумма карт зеленые + синие + коричневые
 let sumOfCards = 0;
 
-
+let currentStage = [
+   [],
+   [],
+   [],
+];
 const stateForAncient = (ancientNumber) => {
-   currentStage = [];
-   // currentStage[0].push(ancientsData[ancientNumber].firstStage.greenCards, ancientsData[ancientNumber].firstStage.blueCards, ancientsData[ancientNumber].firstStage.brownCards);
-   // currentStage[0].push(ancientsData[ancientNumber].firstStage.blueCards);
-   // currentStage[0].push(ancientsData[ancientNumber].firstStage.brownCards);
-   // currentStage[1].push(ancientsData[ancientNumber].secondStage.greenCards);
-   // currentStage[1].push(ancientsData[ancientNumber].secondStage.blueCards);
-   // currentStage[1].push(ancientsData[ancientNumber].secondStage.brownCards);
-   // currentStage[2].push(ancientsData[ancientNumber].thirdStage.greenCards);
-   // currentStage[2].push(ancientsData[ancientNumber].thirdStage.blueCards);
-   // currentStage[2].push(ancientsData[ancientNumber].thirdStage.brownCards);
+   indexVisual = 0;
+   currentStage = [
+      [],
+      [],
+      [],
+   ];
+   currentStage[0].push(ancientsData[ancientNumber].firstStage.greenCards);
+   currentStage[0].push(ancientsData[ancientNumber].firstStage.blueCards);
+   currentStage[0].push(ancientsData[ancientNumber].firstStage.brownCards);
+   currentStage[1].push(ancientsData[ancientNumber].secondStage.greenCards);
+   currentStage[1].push(ancientsData[ancientNumber].secondStage.blueCards);
+   currentStage[1].push(ancientsData[ancientNumber].secondStage.brownCards);
+   currentStage[2].push(ancientsData[ancientNumber].thirdStage.greenCards);
+   currentStage[2].push(ancientsData[ancientNumber].thirdStage.blueCards);
+   currentStage[2].push(ancientsData[ancientNumber].thirdStage.brownCards);
 
    console.log(ancientsData[ancientNumber].firstStage);
    console.log(ancientsData[ancientNumber].secondStage);
@@ -130,7 +139,7 @@ const stateForAncient = (ancientNumber) => {
    console.log(countGreenBlueBrown);
    sumOfCards = sumOfArrayCountGreenBlueBrown(countGreenBlueBrown);
    filteringCards(currentDifficulty);
-   // console.log('currentStage=', currentStage);
+   console.log('currentStage=', currentStage);
 }
 
 const stageArray = () => {
@@ -151,11 +160,14 @@ const choseDifficulty = (e) => {
    })
 }
 let indexRow = 0;
+let indexVisual = 0;
 // подсчитывает общее кол-во зеленых, коричневых и синих карт в массив countGreenBlueBrown
 const countAmountsEachColorOfCards = (stage) => {
    let index = 0;
    for (let key in stage) {
-      // console.log(currentStage[indexRow].push(stage[key]));
+      // currentStage[indexRow][index] = stage[key];
+      dotsContainerDot[indexVisual++].innerHTML = stage[key];
+
       countGreenBlueBrown[index] += stage[key];
       index++;
    }
@@ -297,15 +309,18 @@ const filter = (take, remove) => {
 
    console.log('amountCards', amountCards);
    console.log('miniStage', miniStage);
+
    return miniStage;
 }
 
 
 
 const openCart = () => {
+   // currentStage
    console.log('finalStage =', finalStage);
    let shoeCart = document.querySelector('.last-card');
    for (let key in finalStage) {
+      // if (finalStage[key])
       console.log(finalStage[key]);
       shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
       delete finalStage[key];
