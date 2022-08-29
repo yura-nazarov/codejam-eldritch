@@ -12,7 +12,7 @@ const dotsContainerDot = document.querySelectorAll('.dots-container .dot');
 
 let currentAncient = 0;
 let currentDifficulty = 2;
-let currentStage = 0;
+let currentStage = [];
 
 let green = [];
 let blue = [];
@@ -113,14 +113,18 @@ const stateForAncient = (ancientNumber) => {
    console.log(ancientsData[ancientNumber].firstStage);
    console.log(ancientsData[ancientNumber].secondStage);
    console.log(ancientsData[ancientNumber].thirdStage);
-   countAmountsEachColorOfCards(ancientsData[ancientNumber].firstStage);
-   countAmountsEachColorOfCards(ancientsData[ancientNumber].secondStage);
-   countAmountsEachColorOfCards(ancientsData[ancientNumber].thirdStage);
+   currentStage[0] = countAmountsEachColorOfCards(ancientsData[ancientNumber].firstStage);
+   currentStage[1] = countAmountsEachColorOfCards(ancientsData[ancientNumber].secondStage);
+   currentStage[2] = countAmountsEachColorOfCards(ancientsData[ancientNumber].thirdStage);
    console.log(countGreenBlueBrown);
    sumOfCards = sumOfArrayCountGreenBlueBrown(countGreenBlueBrown);
    filteringCards(currentDifficulty);
+   console.log('currentStage=', currentStage);
 }
 
+const stageArray = () => {
+   // currentStage
+}
 
 
 const choseDifficulty = (e) => {
@@ -140,9 +144,11 @@ const choseDifficulty = (e) => {
 const countAmountsEachColorOfCards = (stage) => {
    let index = 0;
    for (let key in stage) {
+      currentStage[index] = stage[key];
       countGreenBlueBrown[index] += stage[key];
       index++;
    }
+   return currentStage;
 }
 
 const sumOfArrayCountGreenBlueBrown = (array) => {
