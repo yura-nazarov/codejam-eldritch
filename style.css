@@ -106,7 +106,8 @@ code {
    flex-direction: column;
    gap: 20px;
    justify-content: center;
-   min-width: 30%
+   min-width: 30%;
+   flex-wrap: wrap;
 }
 
 .deck-container .shuffle-button {
