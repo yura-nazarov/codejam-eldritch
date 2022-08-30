@@ -9,7 +9,7 @@ const currentState = document.querySelectorAll('.current-state');
 const stageContainer = document.querySelectorAll('.stage-container');
 const dotsContainer = document.querySelectorAll('.dots-container');
 const dotsContainerDot = document.querySelectorAll('.dot');
-
+const shoeCart = document.querySelector('.last-card');
 let currentAncient = 0;
 let currentDifficulty = 2;
 
@@ -21,7 +21,7 @@ let countGreenBlueBrown = [0, 0, 0];
 
 let stages = { greenCards, blueCards, brownCards };
 let fullStages = {};
-alert('Привет!Почти все сделал. В консоли показывает конечный массив с картами - miniStage. Доделаю завтра, что бы по рядам брались карты и картинки что бы показывались.');
+// alert('Привет!Почти все сделал. В консоли показывает конечный массив с картами - miniStage. Доделаю завтра, что бы по рядам брались карты и картинки что бы показывались.');
 // объединяем три колоды карт в одну fullStages
 let index = 0;
 for (let key in stages) {
@@ -82,6 +82,7 @@ let fullStagesCopy = {};
 
 // слушаем нажатие на мага, сложность и колоду карт
 app.addEventListener('click', (e) => {
+   shoeCart.style.backgroundImage = '';
    // обнуляем массив с кол-вом карт при каждом клике
    countGreenBlueBrown = [0, 0, 0];
    if (e.target.classList.contains('ancient-card')) choseAncient(e);
@@ -131,7 +132,7 @@ const stateForAncient = (ancientNumber) => {
    currentStage[2].push(ancientsData[ancientNumber].thirdStage.greenCards);
    currentStage[2].push(ancientsData[ancientNumber].thirdStage.blueCards);
    currentStage[2].push(ancientsData[ancientNumber].thirdStage.brownCards);
-   currentStage[2].push(ancientsData[ancientNumber].thirdStage.greenCards + ancientsData[ancientNumber].thirdStage.brownCards + ancientsData[ancientNumber].thirdStage.brownCards);
+   currentStage[2].push(ancientsData[ancientNumber].thirdStage.greenCards + ancientsData[ancientNumber].thirdStage.blueCards + ancientsData[ancientNumber].thirdStage.brownCards);
 
    console.log(ancientsData[ancientNumber].firstStage);
    console.log(ancientsData[ancientNumber].secondStage);
@@ -317,86 +318,241 @@ const filter = (take, remove) => {
 }
 
 
+let countForGreenCards = 0;
+let countForBlueCards = 0;
+let countForBrownCards = 0;
+let countForGreenCards1 = 0;
+let countForBlueCards1 = 0;
+let countForBrownCards1 = 0;
+let countForGreenCards2 = 0;
+let countForBlueCards2 = 0;
+let countForBrownCards2 = 0;
 
 const openCart = () => {
-   let shoeCart = document.querySelector('.last-card');
+
    // currentStage
    console.log('finalStage =', finalStage);
    // delete finalStage[0];
-   let countForGreenCards = 0;
-   let countForBlueCards = 0;
-   let countForBrownCards = 0;
 
    while (currentStage[0][3] > 0) {
       for (let key in finalStage) {
-         console.log(finalStage[key].color);
-         console.log('currentStage[0][3]', currentStage[0][3]);
+         // console.log(finalStage[key].color);
+         // console.log('currentStage[0][3]', currentStage[0][3]);
 
-         if (currentStage[0][0] - countForGreenCards > 0) {
+         if ((currentStage[0][0] - countForGreenCards) > 0) {
             if (finalStage[key].color === 'green') {
-               countForGreenCards++
+               countForGreenCards++;
                dotsContainerDot[0].innerHTML = currentStage[0][0] - countForGreenCards;
                shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
-               console.log('countForGreenCards', countForGreenCards);
+               console.log('if currentStage[0][0] - countForGreenCards', currentStage[0][0] - countForGreenCards);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[0][3]--;
+               return;
+            } else if (finalStage[key].color === 'green' && finalStage[key].difficulty === 'normal') {
+               countForGreenCards++;
+               dotsContainerDot[0].innerHTML = currentStage[0][0] - countForGreenCards;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[0][0] - countForGreenCards', currentStage[0][0] - countForGreenCards);
                console.log('finalStage[key]', finalStage[key]);
                delete finalStage[key];
                currentStage[0][3]--;
                return;
             }
-         } else if (finalStage[key].color === 'green' && finalStage[key].difficulty === 'normal') {
-            countForGreenCards++
-            dotsContainerDot[0].innerHTML = currentStage[0][0] - countForGreenCards;
-            shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
-            console.log('countForGreenCards', countForGreenCards);
-            console.log('finalStage[key]', finalStage[key]);
-            delete finalStage[key];
-            currentStage[0][3]--;
-            return;
          }
 
-         if (currentStage[0][2] - countForBlueCards > 0) {
+         if ((currentStage[0][2] - countForBlueCards) > 0) {
             if (finalStage[key].color === 'blue') {
-               countForBlueCards++
+               countForBlueCards++;
                dotsContainerDot[2].innerHTML = currentStage[0][2] - countForBlueCards;
                shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
-               console.log('countForBlueCards', countForBlueCards);
+               console.log('if currentStage[0][2] - countForBlueCards', currentStage[0][2] - countForBlueCards);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[0][3]--;
+               return;
+            } else if (finalStage[key].color === 'blue' && finalStage[key].difficulty === 'normal') {
+               countForBlueCards++;
+               dotsContainerDot[2].innerHTML = currentStage[0][2] - countForBlueCards;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[0][2] - countForBlueCards', currentStage[0][2] - countForBlueCards);
                console.log('finalStage[key]', finalStage[key]);
                delete finalStage[key];
                currentStage[0][3]--;
                return;
             }
-         } else if (finalStage[key].color === 'blue' && finalStage[key].difficulty === 'normal') {
-            countForBlueCards++
-            dotsContainerDot[2].innerHTML = currentStage[0][2] - countForBlueCards;
-            shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
-            console.log('countForBlueCards', countForBlueCards);
-            console.log('finalStage[key]', finalStage[key]);
-            delete finalStage[key];
-            currentStage[0][3]--;
-            return;
          }
 
-         if (currentStage[0][1] - countForBrownCards > 0) {
+         if ((currentStage[0][1] - countForBrownCards) > 0) {
             if (finalStage[key].color === 'brown') {
                countForBrownCards++;
                dotsContainerDot[1].innerHTML = currentStage[0][1] - countForBrownCards;
                shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
-               console.log('countForBrownCards', countForBrownCards);
+               console.log('if currentStage[0][1] - countForBrownCards', currentStage[0][1] - countForBrownCards);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[0][3]--;
+               return;
+            } else if (finalStage[key].color === 'brown' && finalStage[key].difficulty === 'normal') {
+               countForBrownCards++;
+               dotsContainerDot[1].innerHTML = currentStage[0][1] - countForBrownCards;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[0][1] - countForBrownCards', currentStage[0][1] - countForBrownCards);
                console.log('finalStage[key]', finalStage[key]);
                delete finalStage[key];
                currentStage[0][3]--;
                return;
             }
-         } else if (finalStage[key].color === 'brown' && finalStage[key].difficulty === 'normal') {
-            countForBrownCards++;
-            dotsContainerDot[1].innerHTML = currentStage[0][1] - countForBrownCards;
-            shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
-            console.log('countForBrownCards', countForBrownCards);
-            console.log('finalStage[key]', finalStage[key]);
-            delete finalStage[key];
-            currentStage[0][3]--;
-            return;
          }
       }
    }
+
+   // *************** LEVEL 2 ********************************************
+   while (currentStage[1][3] > 0) {
+      for (let key in finalStage) {
+         // console.log(finalStage[key].color);
+         // console.log('currentStage[1][3]', currentStage[1][3]);
+
+         if ((currentStage[1][0] - countForGreenCards1) > 0) {
+            if (finalStage[key].color === 'green') {
+               countForGreenCards1++;
+               dotsContainerDot[3].innerHTML = currentStage[1][0] - countForGreenCards1;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('if currentStage[1][0] - countForGreenCards1', currentStage[1][0] - countForGreenCards1);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[1][3]--;
+               return;
+            } else if (finalStage[key].color === 'green' && finalStage[key].difficulty === 'normal') {
+               countForGreenCards1++;
+               dotsContainerDot[3].innerHTML = currentStage[1][0] - countForGreenCards1;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[1][0] - countForGreenCards1', currentStage[1][0] - countForGreenCards1);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[1][3]--;
+               return;
+            }
+         }
+
+         if ((currentStage[1][2] - countForBlueCards1) > 0) {
+            if (finalStage[key].color === 'blue') {
+               countForBlueCards1++;
+               dotsContainerDot[5].innerHTML = currentStage[1][2] - countForBlueCards1;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('if currentStage[1][2] - countForBlueCards1', currentStage[1][2] - countForBlueCards1);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[1][3]--;
+               return;
+            } else if (finalStage[key].color === 'blue' && finalStage[key].difficulty === 'normal') {
+               countForBlueCards1++;
+               dotsContainerDot[5].innerHTML = currentStage[1][2] - countForBlueCards1;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[1][2] - countForBlueCards1', currentStage[1][2] - countForBlueCards1);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[1][3]--;
+               return;
+            }
+         }
+
+         if ((currentStage[1][1] - countForBrownCards1) > 0) {
+            if (finalStage[key].color === 'brown') {
+               countForBrownCards1++;
+               dotsContainerDot[4].innerHTML = currentStage[1][1] - countForBrownCards1;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('if currentStage[1][1] - countForBrownCards1', currentStage[1][1] - countForBrownCards1);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[1][3]--;
+               return;
+            } else if (finalStage[key].color === 'brown' && finalStage[key].difficulty === 'normal') {
+               countForBrownCards1++;
+               dotsContainerDot[4].innerHTML = currentStage[1][1] - countForBrownCards1;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[1][1] - countForBrownCards1', currentStage[1][1] - countForBrownCards1);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[1][3]--;
+               return;
+            }
+         }
+      }
+   }
+   // *************** LEVEL 3 ********************************************
+   while (currentStage[2][3] > 0) {
+      for (let key in finalStage) {
+         // console.log(finalStage[key].color);
+         // console.log('currentStage[1][3]', currentStage[1][3]);
+
+         if ((currentStage[2][0] - countForGreenCards2) > 0) {
+            if (finalStage[key].color === 'green') {
+               countForGreenCards2++;
+               dotsContainerDot[6].innerHTML = currentStage[2][0] - countForGreenCards2;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('if currentStage[2][0] - countForGreenCards2', currentStage[2][0] - countForGreenCards2);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[2][3]--;
+               return;
+            } else if (finalStage[key].color === 'green' && finalStage[key].difficulty === 'normal') {
+               countForGreenCards2++;
+               dotsContainerDot[6].innerHTML = currentStage[2][0] - countForGreenCards2;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[2][0] - countForGreenCards2', currentStage[2][0] - countForGreenCards2);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[2][3]--;
+               return;
+            }
+         }
+
+         if ((currentStage[2][2] - countForBlueCards2) > 0) {
+            if (finalStage[key].color === 'blue') {
+               countForBlueCards2++;
+               dotsContainerDot[8].innerHTML = currentStage[2][2] - countForBlueCards2;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('if currentStage[2][2] - countForBlueCards2', currentStage[2][2] - countForBlueCards2);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[2][3]--;
+               return;
+            } else if (finalStage[key].color === 'blue' && finalStage[key].difficulty === 'normal') {
+               countForBlueCards2++;
+               dotsContainerDot[8].innerHTML = currentStage[2][2] - countForBlueCards2;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[2][2] - countForBlueCards2', currentStage[2][2] - countForBlueCards2);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[2][3]--;
+               return;
+            }
+         }
+
+         if ((currentStage[2][1] - countForBrownCards2) > 0) {
+            if (finalStage[key].color === 'brown') {
+               countForBrownCards2++;
+               dotsContainerDot[7].innerHTML = currentStage[2][1] - countForBrownCards2;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('if currentStage[2][1] - countForBrownCards2', currentStage[2][1] - countForBrownCards2);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[2][3]--;
+               return;
+            } else if (finalStage[key].color === 'brown' && finalStage[key].difficulty === 'normal') {
+               countForBrownCards2++;
+               dotsContainerDot[7].innerHTML = currentStage[2][1] - countForBrownCards2;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('else currentStage[2][1] - countForBrownCards2', currentStage[2][1] - countForBrownCards2);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[2][3]--;
+               return;
+            }
+         }
+      }
+   }
+
+
 }
