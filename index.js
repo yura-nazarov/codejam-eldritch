@@ -21,7 +21,7 @@ let countGreenBlueBrown = [0, 0, 0];
 
 let stages = { greenCards, blueCards, brownCards };
 let fullStages = {};
-alert('Привет!Почти все сделал. В консоли показывает конечный массив с картами - miniStage. Доделаю завтра, что бы по рядам брались карты и картинки что бы показывались.');
+// alert('Привет!Почти все сделал. В консоли показывает конечный массив с картами - miniStage. Доделаю завтра, что бы по рядам брались карты и картинки что бы показывались.');
 // объединяем три колоды карт в одну fullStages
 let index = 0;
 for (let key in stages) {
@@ -123,12 +123,15 @@ const stateForAncient = (ancientNumber) => {
    currentStage[0].push(ancientsData[ancientNumber].firstStage.greenCards);
    currentStage[0].push(ancientsData[ancientNumber].firstStage.blueCards);
    currentStage[0].push(ancientsData[ancientNumber].firstStage.brownCards);
+   currentStage[0].push(ancientsData[ancientNumber].firstStage.greenCards + ancientsData[ancientNumber].firstStage.blueCards + ancientsData[ancientNumber].firstStage.brownCards);
    currentStage[1].push(ancientsData[ancientNumber].secondStage.greenCards);
    currentStage[1].push(ancientsData[ancientNumber].secondStage.blueCards);
    currentStage[1].push(ancientsData[ancientNumber].secondStage.brownCards);
+   currentStage[1].push(ancientsData[ancientNumber].secondStage.greenCards + ancientsData[ancientNumber].secondStage.blueCards + ancientsData[ancientNumber].secondStage.brownCards);
    currentStage[2].push(ancientsData[ancientNumber].thirdStage.greenCards);
    currentStage[2].push(ancientsData[ancientNumber].thirdStage.blueCards);
    currentStage[2].push(ancientsData[ancientNumber].thirdStage.brownCards);
+   currentStage[2].push(ancientsData[ancientNumber].thirdStage.greenCards + ancientsData[ancientNumber].thirdStage.brownCards + ancientsData[ancientNumber].thirdStage.brownCards);
 
    console.log(ancientsData[ancientNumber].firstStage);
    console.log(ancientsData[ancientNumber].secondStage);
@@ -244,13 +247,13 @@ const filter = (take, remove) => {
                delete fullStagesCopy[key];
                continue;
             }
-            if (fullStagesCopy[key].color === 'blue' && (countGreenBlueBrown[1] - contForBlueCards++ > 0)) {
-               console.log('countGreenBlueBrown[0]', countGreenBlueBrown[0], 'contForBlueCards', contForBlueCards);
+            if (fullStagesCopy[key].color === 'blue' && (countGreenBlueBrown[2] - contForBlueCards++ > 0)) {
+               console.log('countGreenBlueBrown[0]', countGreenBlueBrown[2], 'contForBlueCards', contForBlueCards);
                miniStage[key] = fullStagesCopy[key];
                delete fullStagesCopy[key];
                continue;
             }
-            if (fullStagesCopy[key].color === 'brown' && (countGreenBlueBrown[2] - contForBrownCards++ > 0)) {
+            if (fullStagesCopy[key].color === 'brown' && (countGreenBlueBrown[1] - contForBrownCards++ > 0)) {
                console.log('contForBrownCards', contForBrownCards);
                miniStage[key] = fullStagesCopy[key];
                delete fullStagesCopy[key];
@@ -265,13 +268,13 @@ const filter = (take, remove) => {
             delete fullStagesCopy[key];
             continue;
          }
-         if (fullStagesCopy[key].color === 'blue' && (countGreenBlueBrown[1] - contForBlueCards++ > 0)) {
-            console.log('countGreenBlueBrown[0]', countGreenBlueBrown[0], 'contForBlueCards', contForBlueCards);
+         if (fullStagesCopy[key].color === 'blue' && (countGreenBlueBrown[2] - contForBlueCards++ > 0)) {
+            console.log('countGreenBlueBrown[0]', countGreenBlueBrown[2], 'contForBlueCards', contForBlueCards);
             miniStage[key] = fullStagesCopy[key];
             delete fullStagesCopy[key];
             continue;
          }
-         if (fullStagesCopy[key].color === 'brown' && (countGreenBlueBrown[2] - contForBrownCards++ > 0)) {
+         if (fullStagesCopy[key].color === 'brown' && (countGreenBlueBrown[1] - contForBrownCards++ > 0)) {
             console.log('contForBrownCards', contForBrownCards);
             miniStage[key] = fullStagesCopy[key];
             delete fullStagesCopy[key];
@@ -292,13 +295,13 @@ const filter = (take, remove) => {
             delete fullStagesCopy[key];
             continue;
          }
-         if (fullStagesCopy[key].color === 'blue' && (countGreenBlueBrown[1] - contForBlueCards++ > 0)) {
+         if (fullStagesCopy[key].color === 'blue' && (countGreenBlueBrown[2] - contForBlueCards++ > 0)) {
             console.log('EDDED contForBlueCards', contForBlueCards);
             miniStage[key] = fullStagesCopy[key];
             delete fullStagesCopy[key];
             continue;
          }
-         if (fullStagesCopy[key].color === 'brown' && (countGreenBlueBrown[2] - contForBrownCards++ > 0)) {
+         if (fullStagesCopy[key].color === 'brown' && (countGreenBlueBrown[1] - contForBrownCards++ > 0)) {
             console.log('EDDED contForBrownCards', contForBrownCards);
             miniStage[key] = fullStagesCopy[key];
             delete fullStagesCopy[key];
@@ -316,14 +319,84 @@ const filter = (take, remove) => {
 
 
 const openCart = () => {
+   let shoeCart = document.querySelector('.last-card');
    // currentStage
    console.log('finalStage =', finalStage);
-   let shoeCart = document.querySelector('.last-card');
-   for (let key in finalStage) {
-      // if (finalStage[key])
-      console.log(finalStage[key]);
-      shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
-      delete finalStage[key];
-      return
+   // delete finalStage[0];
+   let countForGreenCards = 0;
+   let countForBlueCards = 0;
+   let countForBrownCards = 0;
+
+   while (currentStage[0][3] > 0) {
+      for (let key in finalStage) {
+         console.log(finalStage[key].color);
+         console.log('currentStage[0][3]', currentStage[0][3]);
+
+         if (currentStage[0][0] - countForGreenCards > 0) {
+            if (finalStage[key].color === 'green') {
+               countForGreenCards++
+               dotsContainerDot[0].innerHTML = currentStage[0][0] - countForGreenCards;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('countForGreenCards', countForGreenCards);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[0][3]--;
+               return;
+            }
+         } else if (finalStage[key].color === 'green' && finalStage[key].difficulty === 'normal') {
+            countForGreenCards++
+            dotsContainerDot[0].innerHTML = currentStage[0][0] - countForGreenCards;
+            shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+            console.log('countForGreenCards', countForGreenCards);
+            console.log('finalStage[key]', finalStage[key]);
+            delete finalStage[key];
+            currentStage[0][3]--;
+            return;
+         }
+
+         if (currentStage[0][2] - countForBlueCards > 0) {
+            if (finalStage[key].color === 'blue') {
+               countForBlueCards++
+               dotsContainerDot[2].innerHTML = currentStage[0][2] - countForBlueCards;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('countForBlueCards', countForBlueCards);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[0][3]--;
+               return;
+            }
+         } else if (finalStage[key].color === 'blue' && finalStage[key].difficulty === 'normal') {
+            countForBlueCards++
+            dotsContainerDot[2].innerHTML = currentStage[0][2] - countForBlueCards;
+            shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+            console.log('countForBlueCards', countForBlueCards);
+            console.log('finalStage[key]', finalStage[key]);
+            delete finalStage[key];
+            currentStage[0][3]--;
+            return;
+         }
+
+         if (currentStage[0][1] - countForBrownCards > 0) {
+            if (finalStage[key].color === 'brown') {
+               countForBrownCards++;
+               dotsContainerDot[1].innerHTML = currentStage[0][1] - countForBrownCards;
+               shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+               console.log('countForBrownCards', countForBrownCards);
+               console.log('finalStage[key]', finalStage[key]);
+               delete finalStage[key];
+               currentStage[0][3]--;
+               return;
+            }
+         } else if (finalStage[key].color === 'brown' && finalStage[key].difficulty === 'normal') {
+            countForBrownCards++;
+            dotsContainerDot[1].innerHTML = currentStage[0][1] - countForBrownCards;
+            shoeCart.style.backgroundImage = `url('${finalStage[key].cardFace}')`;
+            console.log('countForBrownCards', countForBrownCards);
+            console.log('finalStage[key]', finalStage[key]);
+            delete finalStage[key];
+            currentStage[0][3]--;
+            return;
+         }
+      }
    }
 }
